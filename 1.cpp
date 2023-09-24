@@ -125,6 +125,7 @@ void third(int** matrix, int* D)
     int step = 0;
     int left = 0, right = 0, bottom = 0, top = 0;
     D[k++] = matrix[center][center];
+    
     while (k < N * N) {
         step++;
         for (int i = 1; i <= step && k < N * N; i++) { //right
