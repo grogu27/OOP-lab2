@@ -3,7 +3,7 @@
 #include <ctime>
 
 using namespace std;
-#define N 4
+#define N 6
 
 void del(int** mas, int* D);
 int** mass_creat();
@@ -17,8 +17,8 @@ void fourth(int** matrix, int* D);
 int main()
 {
     int** arr = mass_creat();
-    int* D = new int[N*N]; 
-    
+    int* D = new int[N*N];
+
     print(arr);
     first(arr, D);
     cout << "a)" << " ";
@@ -35,7 +35,7 @@ int main()
     fourth(arr, D);
     cout << "d)" << " ";
     print_D(D);
-    
+
     del(arr, D);
     return 0;
 }
@@ -44,7 +44,7 @@ void del(int** mass, int* D)
 {
     for (int i = 0; i < N; i++)
         delete [] mass[i];
-    
+
     delete [] mass;
     delete [] D;
 }
@@ -104,7 +104,7 @@ void second(int** matrix, int* D)
     for (int d = 0; d < 2 * N - 1; d++)
     {
         int i = (d < N) ? 0: d - N + 1;         //Если d < N, то мы находимся на верхней половине матрицы
-        int j = (d < N) ? 1 + d - 1: N - 1; 
+        int j = (d < N) ? 1 + d - 1: N - 1;
 
         while (i < N  && j >= 0) {
             D[index] = matrix[i][j];
@@ -120,40 +120,44 @@ void third(int** matrix, int* D)
 {
     int k = 0;
     int center = N / 2;
-    if(center % 2 == 0 && center > 0 && N < 5)
-	    center -= 1;
-    int step = 0;
-    int left = 0, right = 0, bottom = 0, top = 0;
-    D[k++] = matrix[center][center];
-    
-    while (k < N * N) {
-        step++;
-        for (int i = 1; i <= step && k < N * N; i++) { //right
-            D[k++] = matrix[center - top][center - left + i];
+    if(N % 2 == 0 && center > 0)
+	    {
+           center--;
+	    }
+    int x = center, y = center;
+ int l = 1;
+ int ind = 1;
+    for ( ;ind <= N-1; ind++) {
+        for (int i = 1; i <= ind; i++) { //right
+            D[k++] = matrix[x][y];
+            y+=l;
         }
-        right++;
-        for (int i = 1; i <= step && k < N * N; i++) { //bottom
-            D[k++] = matrix[center - top + i][center + right];
+
+        for (int i = 1; i <= ind; i++) { //bottom
+            D[k++] = matrix[x][y];
+            x+=l;
         }
-        bottom++;
-        step++;
-        for (int i = 1; i <= step && k < N * N; i++) { //left
-            D[k++] = matrix[center + bottom][center + right - i];
+        l*=-1;
+       // step++;
+ /*       for (int i = 1; i <= step && k < N * N; i++) { //left
+            D[k++] = matrix[x][--y];
         }
-        left++;
+
         for (int i = 1; i <= step && k < N * N; i++) { //top
-            D[k++] = matrix[center + bottom - i][center - left];
+            D[k++] = matrix[--x][y];
         }
-        top++;
- 
+        step++;*/
     }
+    /*for (int i = 1; i <= ind; i++)
+            {D[k++] = matrix[x][y];
+            y+=l;}*/
+
 }
 
 // d) по спирали, начиная с левого верхнего элемента
 void fourth(int** matrix, int* D)
 {
     int k = 0;
-    int center = N / 2;
     int left = 0, right = 0, bottom = 0, top = 0;
     int size = N;
     while(k < N * N)
@@ -161,12 +165,12 @@ void fourth(int** matrix, int* D)
         for(int i = 0; i < size && k < N * N; i++ )
             D[k++] = matrix[top][left + i];
         top++;
-        size--;  
-        
+        size--;
+
         for(int i = 0; i < size && k < N * N; i++ )
             D[k++] = matrix[top + i][N - 1 - right];
         right++;
-        
+
 
         for(int i = 0; i < size && k < N * N; i++ )
             D[k++] = matrix[N - 1 - bottom][N - 1 - right - i];
