@@ -3,7 +3,7 @@
 #include <ctime>
 
 using namespace std;
-#define N 6
+#define N 4
 
 void del(int** mas, int* D);
 int** mass_creat();
@@ -124,10 +124,10 @@ void third(int** matrix, int* D)
 	    {
            center--;
 	    }
-    int x = center, y = center;
- int l = 1;
- int ind = 1;
-    for ( ;ind <= N-1; ind++) {
+    int x = center, y = center;         
+    int l = 1;
+    int ind = 1;
+    for ( ;ind <= N; ind++) {
         for (int i = 1; i <= ind; i++) { //right
             D[k++] = matrix[x][y];
             y+=l;
@@ -138,47 +138,37 @@ void third(int** matrix, int* D)
             x+=l;
         }
         l*=-1;
-       // step++;
- /*       for (int i = 1; i <= step && k < N * N; i++) { //left
-            D[k++] = matrix[x][--y];
-        }
-
-        for (int i = 1; i <= step && k < N * N; i++) { //top
-            D[k++] = matrix[--x][y];
-        }
-        step++;*/
+ 
     }
-    /*for (int i = 1; i <= ind; i++)
-            {D[k++] = matrix[x][y];
-            y+=l;}*/
-
 }
 
 // d) по спирали, начиная с левого верхнего элемента
 void fourth(int** matrix, int* D)
 {
     int k = 0;
-    int left = 0, right = 0, bottom = 0, top = 0;
-    int size = N;
-    while(k < N * N)
-    {
-        for(int i = 0; i < size && k < N * N; i++ )
-            D[k++] = matrix[top][left + i];
-        top++;
-        size--;
+    int x = 0, y = 0;
+    int iteration;
 
-        for(int i = 0; i < size && k < N * N; i++ )
-            D[k++] = matrix[top + i][N - 1 - right];
-        right++;
+    if (N % 2 == 0)
+        iteration = N / 2;
+    else
+        iteration = N / 2 + 1;
 
+    int right = 1;
+    
+    for ( ;iteration > 0; iteration--){
 
-        for(int i = 0; i < size && k < N * N; i++ )
-            D[k++] = matrix[N - 1 - bottom][N - 1 - right - i];
-        bottom++;
-        size--;
-
-        for(int i = 0; i < size && k < N * N; i++ )
-            D[k++] = matrix[N - 1 - bottom - i][left];
-        left++;
-    }
+        for (int i = 0; i < N; i++) { //right
+            D[k++] = matrix[x][y];
+            y+=right;
+        }
+        x ++;
+        for (int i = 0; i < N; i++) { //left
+            D[k++] = matrix[x][y];
+            y-=right;
+        }
+        x ++;
+   }
+   
+   
 }
